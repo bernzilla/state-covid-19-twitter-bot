@@ -107,37 +107,54 @@ def main():
         # convert the date to a friendly string
         friendly_date = as_of.strftime(FRIENDLY_DATE_FORMAT)
 
-        # handle the case where deaths get adjusted and reflect a negative amount
+        # convert the numerical data to integers
         deaths = int(deaths)
+        hospitalizations = int(hospitalizations)
+        positive_tests = int(positive_tests)
+        tests = int(tests)
+
+        # handle the case where deaths get adjusted and reflect a negative amount
         deaths = 0 if deaths < 0 else deaths
 
         # prepare for a status update
         status_update = None
 
-        # if a larger number of tests was returned than positive tests
-        if int(positive_tests) < int(tests):
+        # if meaningful data is available
+        if deaths + hospitalizations + positive_tests + tests > 0:
 
-            # generate the full status update using the full template
-            status_update = TWEET_TEMPLATE_FULL % (
-                STATE_NAME,
-                friendly_date,
-                int(positive_tests),
-                int(tests),
-                int(positive_tests) / int(tests) * 100 if tests != 0 else 0.0,
-                int(hospitalizations),
-                deaths,
-            )
+            # if a larger number of tests was returned than positive tests
+            if int(positive_tests) < int(tests):
 
-        # else if only positive tests were reported
+                # generate the full status update using the full template
+                status_update = TWEET_TEMPLATE_FULL % (
+                    STATE_NAME,
+                    friendly_date,
+                    int(positive_tests),
+                    int(tests),
+                    int(positive_tests) / int(tests) * 100 if tests != 0 else 0.0,
+                    int(hospitalizations),
+                    deaths,
+                )
+
+            # else if only positive tests were reported
+            else:
+
+                # generate the full status update using the full template
+                status_update = TWEET_TEMPLATE_PARTIAL % (
+                    STATE_NAME,
+                    friendly_date,
+                    int(positive_tests),
+                    int(hospitalizations),
+                    deaths,
+                )
+
+        # else if there is no meaninful data available
         else:
 
-            # generate the full status update using the full template
-            status_update = TWEET_TEMPLATE_PARTIAL % (
-                STATE_NAME,
-                friendly_date,
-                int(positive_tests),
-                int(hospitalizations),
-                deaths,
+            # log a message
+            logger.info(
+                "The API did not return meaningful data for the day, "
+                "so no tweet will be sent."
             )
 
     # log a message
