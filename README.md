@@ -1,14 +1,20 @@
 # State COVID-19 Twitter Bot
 
- This is a Twitter bot that tweets daily, state-level COVID-19 data using The COVID Tracking Project's data API.
+ This is a Twitter bot that tweets daily, state-level COVID-19 information based on data compiled by The New York Times.
+
+ The bot previously relied on data compiled by [The COVID Tracking Project](https://covidtracking.com), but
+ switched to data from The New York Times in March of 2021 when The COVID Tracking Project [discontinued
+ its data collecting and sharing efforts](https://covidtracking.com/analysis-updates/giving-thanks-and-looking-ahead-our-data-collection-work-is-done).
+
+ Refer to the commit history of this repository for the older code and documentation.
 
  ## Dependencies
 
  The Twitter bot has several dependencies.
 
- ### The COVID Tracking Project's Data API
+ ### COVID-19 Data from The New York Times
 
- Daily, state-level COVID-19 data is retrieved from The COVID Tracking Project's data API, which is described in detail at https://covidtracking.com/data/api.  It is available under a [CC BY-NC-4.0 license](https://covidtracking.com/about-data/license).
+ Daily, state-level COVID-19 data is retrieved from The New York Times, whose data is described in detail at https://github.com/nytimes/covid-19-data.
 
  ### Twitter Developer API
 
@@ -24,8 +30,8 @@
 
  | Environment Variable        | Description                                                                                                                                          | Example          |
 |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
-| STATE_ABBREVIATION          | 2-character state abbreviation in lowercase.                                                                                                         | wa               |
-| STATE_NAME                  | Name of the state that you want to appear in tweets.                                                                                                 | Washington State |
+| FRIENDLY_STATE_NAME         | Optional friendly state name to use in tweets if it differs from what is used in The New York Times' data.                                           | Washington State |
+| STATE_NAME                  | Name of the state as it appears in The New York Times' data.                                                                                         | Washington       |
 | SEND_TWEET                  | Flag to control whether a tweet is published or not (to help with debugging).  Any value other than "True" will keep the tweet from being published. | True             |
 | TWITTER_ACCESS_TOKEN        | Access token associated with a Twitter Developer API account.                                                                                        | N/A              |
 | TWITTER_ACCESS_TOKEN_SECRET | Access token secret associated with a Twitter Developer API account.                                                                                 | N/A              |
