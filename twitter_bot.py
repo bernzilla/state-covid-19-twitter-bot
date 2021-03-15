@@ -136,10 +136,10 @@ def main():
             )
 
     # log a message
-    logger.info(status_update)
+    logger.info("Status update: %s", status_update)
 
-    # if the tweet should be sent (i.e. not debugging)
-    if SEND_TWEET == "True":
+    # if a status update is ready and the tweet should be sent (i.e. not debugging)
+    if status_update and SEND_TWEET == "True":
 
         # log a message
         logger.info("Connecting to the Twitter API.")
